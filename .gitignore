@@ -18,3 +18,6 @@
 
 #ignore parse 
 /config/parse_resource.yml 
+/config/secrets.yml
+
+
