@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QuickHelpPayments</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', 'http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' %>
+  <%= stylesheet_link_tag     'application', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' %>
+  <%= stylesheet_link_tag 'application', 'https://checkout.stripe.com/v3/checkout/button.css' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			<%= image_tag "quickhelptext.png", height: '75'%> 			
+		</div>
+			 <div class="nav navbar-nav navbar-left">
+			 	<div class="social-media">
+			 		<a target="_blank" href="https://www.facebook.com/QuickHelpApp/">
+						<%= image_tag "facebook.png", height: '50'%> 	
+					</a>
+					<a target="_blank" href="https://twitter.com/thequickhelper">
+						<%= image_tag "twitter.png", height: '50'%> 	
+					</a>
+					<a target="_blank" href="https://www.linkedin.com/company/quickhelp-llc?trk=nav_account_sub_nav_company_admin">
+					<%= image_tag "linkedin.png", height: '50'%> 
+					</a>
+				</div>
+			</div>
+		 	<div class="nav navbar-nav navbar-right">
+		 		<a target="_blank" href="https://itunes.apple.com/us/app/quickhelp-on-demand-academic/id931226425?mt=8">
+				<%= image_tag "appstore.png", height: '50', :class => "app-store"%> 	
+				</a>
+			</div>
+	</div>
+
+	</nav>
+
+	<div class="content">
+
+			<div class = "container what-is">
+				 <div id="info-header">  Quickhelp is an on-demand tutoring app for college students </div>	
+			</div>
+
+		<div class="container pay-details">	
+			<%=yield%>
+	 	</div>
+	 	
+	
+	 	<div class = "container">
+	 		<div id="tutors-header">  <%= image_tag "quickhelp.png", height: '25', :class=>"dolphin"%> Tutors on Quickhelp </div>
+	 	</div>
+
+	 	<div class="container">
+	 	 <table style="margin-left: 2%">
+	 	 	<tr style="height: 35px"> 	
+			<td rowspan="2" style="width:175px">
+			  <img src="<%= @tutors[0].picture %>" height="150" class="img-circle tutor-img" > 	
+			</td>
+			<% splitname = @tutors[0].name.split(' ') %> 
+			<td> <b> <%= splitname[0] %> <%= splitname[1][0] %>. </b> </td>
+		
+			<td rowspan="2" style="width:175px">
+			  <img src="<%= @tutors[1].picture %>" height="150" class="img-circle tutor-img" > 	
+			</td>
+			<% splitname = @tutors[1].name.split(' ') %> 
+			<td><b> <%= splitname[0] %> <%= splitname[1][0] %>. <b></td>
+	
+			<td rowspan="2" style="width:175px">
+			  <img src="<%= @tutors[2].picture %>" height="150" class="img-circle tutor-img" > 	
+			</td>
+			<% splitname = @tutors[2].name.split(' ') %> 
+			<td> <b> <%= splitname[0] %> <%= splitname[1][0] %>. </b> </td>
+		
+			</tr> <tr>
+			<td class="education-desc"> Education: <%= @tutors[0].education %> </td> 
+			<td class="education-desc"> Education: <%= @tutors[1].education %> </td> 
+			<td class="education-desc"> Education: <%= @tutors[2].education %> </td> 
+			</tr>
+			<tr>	
+		 	<td colspan="2" class="tutor-card-about">
+		 			 <% about_zero = @tutors[0].generalQualifications.split(" ").first(50).join(" ") %>
+		 				<%= about_zero %>
+		 				<% if about_zero.split(" ").length > 49 %>
+		 				 	 ...
+		 				<%end%>
+			</td>
+			 	<td colspan="2" class="tutor-card-about">
+		 			 <% about_one = @tutors[1].generalQualifications.split(" ").first(50).join(" ") %>
+		 				<%= about_one %>
+		 				<% if about_one.split(" ").length > 49 %>
+		 				 	 ...
+		 				<%end%>
+			</td>
+			 	<td colspan="2" class="tutor-card-about">
+		 			 <% about_two = @tutors[2].generalQualifications.split(" ").first(50).join(" ") %>
+		 				<%= about_two %>
+		 				<% if about_two.split(" ").length > 49 %>
+		 				 	 ...
+		 				<%end%>
+			</td>
+		 	
+		 		</table>
+ 		</div>
+ 		 	 	<hr>
+
+ 		 	 		<footer class="footer container">
+ 		 	 			<a target="_blank" href="http://www.thecrimson.com/article/2015/4/10/i3-challenge-winners-finalists/">
+						<%= image_tag "Harvard-Crimson.png", height: '50'%> 	
+					</a>
+					<a target="_blank" href="http://bcheights.com/metro/2016/harvard-startup-makes-tutoring-part-of-the-sharing-economy/">
+						<%= image_tag "PRESS_BC.png", height: '50'%> 	
+					</a>
+				    <a target="_blank" href="http://bostinno.streetwise.co/2016/02/02/cheaper-tutoring-services-for-college-students-quickhelp-app/">
+						<%= image_tag "PRESS_BostInno.png", height: '50'%> 	
+					</a>
+					 <a target="_blank" href="http://www.hercampus.com/school/bu/quickhelp-why-you-need-upcoming-iphone-app">
+						<%= image_tag "PRESS_Hercampus.jpg", height: '50'%> 	
+					</a>
+									    <a target="_blank" href="https://i-lab.harvard.edu/meet/student-story/hikari-senju/">
+						<%= image_tag "PRESS_iLab.png", height: '50'%> 	
+					</a>
+
+					<a target="_blank" href="http://www.bostonmagazine.com/news/blog/2014/12/15/quickhelp-quickteach-apps-harvard/">
+						<%= image_tag "PRESS_BostonMagazine.jpg", height: '50'%> 	
+					</a>
+									<a target="_blank" href="https://medium.com/rough-draft-ventures/quickhelp-on-demand-tutoring-network-e1b7f1992622#.fyh4v31d4">
+						<%= image_tag "PRESS_Medium.png", height: '50'%> 	
+					</a>	
+									<a target="_blank" href="http://www.thedp.com/article/2016/02/penn-adopts-uber-for-tutors">
+						<%= image_tag "PRESS_TheDP.png", height: '50'%> 	
+					</a>
+									<a target="_blank" href="http://college.usatoday.com/2014/12/15/tutoring-app-offers-alternative-to-on-campus-study-resources/">
+						<%= image_tag "USATODAY.gif", height: '50'%> 	
+					</a>
+	
+				</footer>	
+
+</body>
+</html>

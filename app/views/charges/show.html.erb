@@ -1,0 +1,136 @@
+
+	
+	<div class="row">
+		<div class="col-md-3" >
+						<td style="width: 250px;">
+						<img src="<%=@photo%>" height="200" class="img-circle fb-image" >
+		</div>
+
+		<div class="col-md-9">
+	        
+	        <div id="user-name"> Manage Payments For <%= @user.name %> </div> 
+
+			<table style="width: 100%" id="payment-table">
+
+				<thead> <th> Make a 1-Time Secure Deposit </th><th id="or-column"> <i> or </i>  </th> <th> Add Card To This Account </th> </thead>
+
+					<tr>
+					<td>
+						
+						Select Amount	
+
+		     			<select name="amount" id="amount" class="form-control">
+							  <option value="2500">$25</option>
+							  <option value="5000">$50</option>
+							  <option value="7500">$75</option>
+							  <option value="10000">$100</option>
+							  <option value="15000">$150</option>
+							  <option value="20000">$200</option>
+							</select>
+
+					</td>	
+					<td> </td>
+					<td>
+						<% if @card_associated %>
+							<div id="enter-card-info">
+							<p> A credit card is already associated with this user.</p>
+							<p> ****-****-****-<%=@last_four%> </p>
+							<p> Manage Payments on the QuickHelp app</p>
+							</div>
+						<%else%>
+						<div id="enter-card-info">
+							<p> By entering your credit card information <br/> this student will be able to charge <br> tutoring payments to this card </p>
+						</div>
+						<%end%>
+					</td>	
+					</tr>
+
+				<tr>	
+					<td>
+						<script src="https://checkout.stripe.com/checkout.js"></script>
+
+						<button id="customButton" class="stripe-button-el">
+			  			  <span style="display: block; min-height: 30px;"> Add Amount </span>
+						</button>
+
+						  <script>
+						  var handler = StripeCheckout.configure({
+						    key:  '<%= Rails.configuration.stripe[:publishable_key] %>',
+						    image:  "/assets/quickhelp2.png",
+						    locale: 'auto',
+						    token: function(token) {
+							var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+							var $email = $('<input type=hidden name=stripeEmail />').val(token.email);
+							var $value = $('<input type=hidden name=amount />').val( $( "#amount" ).val() )
+	           				$('form').append($input).append($email).append($value).submit();
+						       
+						    }
+						  });
+
+						  $('#customButton').on('click', function(e) {
+						  	value  = $( "#amount" ).val();
+						    // Open Checkout with further options
+						    handler.open({
+						      name: 'Quickhelp',
+						      description: 'Make 1-Time Deposit',
+						      amount: value,
+						      currency: 'usd'
+						    });
+						    e.preventDefault();
+						  });
+
+						  // Close Checkout on page navigation
+						  $(window).on('popstate', function() {
+						    handler.close();
+						  });
+						</script>
+				</td> <td> </td> <td>
+
+					<%= form_tag charges_path do %>
+					 <article>
+					    <% if flash[:error].present? %>
+					      <div id="error_explanation">
+					        <p><%= flash[:error] %></p>
+					      </div>
+					    <% end %>
+					  </article>
+					  <%= hidden_field_tag 'user_id', @user.objectId.to_s %>
+
+					  <% if @card_associated %>
+					  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+					          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+					          data-name: 'Quickhelp'
+					          data-description="Add card to account"
+					          data-locale="auto"
+					          data-image="/assets/quickhelp2.png"
+							 data-panel-label="Replace Card"
+					    data-label="Replace Card">
+					    </script>
+					    <%else%>
+					    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+					          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+					          data-name: 'Quickhelp'
+					          data-description="Add card to account"
+					          data-locale="auto"
+					          data-image="/assets/quickhelp2.png"
+							 data-panel-label="Add Card"
+					    data-label="Add Card">
+					    </script>
+					    <%end%>
+
+					  <%end%>
+
+
+					  </td>
+				
+				</td>
+			</tr></table>
+			
+		</div>
+		<footer id="powered-by">powered by <%= image_tag "stripe.png", :class => 'logo-stripe'%> </footer>
+	</div>
+	
+
+<script>
+
+</script>
